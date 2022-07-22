@@ -1,0 +1,19 @@
+{
+  "name": "usualchat2",
+  "version": "0.0.1",
+  "description": "Chatting application for Web, Mobile devices",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "este",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vientoeste/UsualChat-Remastering.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vientoeste/UsualChat-Remastering/issues"
+  },
+  "homepage": "https://github.com/vientoeste/UsualChat-Remastering#readme"
+}
