@@ -1,3 +1,14 @@
+const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
+const localStrategy = require('./localStrategy');
+
+const User = require('../models/user');
+
+module.exports = () => {
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
+  localStrategy();
+}
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();

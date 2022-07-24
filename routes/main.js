@@ -1,12 +1,14 @@
 const express = require('express');
 // const { isLoggedIn, isNotLoggedIn } = require('../utils/passport');
 const Room = require('../models/room');
+const Friend = require('../models/friend');
 
 const router = express.Router();
 
 router.get('/', /*isLoggedIn,*/ async (req, res, next) => {
   try {
-    const username = !req.session.username? req.user.username: req.session.username;
+    const username = 'req';
+    // const username = !req.session.username? req.user.username: req.session.username;
     const rooms = await Room.find({
       isDM: false
     });

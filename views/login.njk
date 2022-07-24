@@ -2,19 +2,11 @@
 
 {% block content %}
 <div class='login'>
-	{% if strategy === 'default' %}
-		<form action="/login" method="post">
-	{% elif strategy === 'jwt' %}
-		<form action="/mobile/login" method="post">
-	{% endif %}
+	<form action="/auth/login" method="post">
 		<div class="container">
 			<div class="profile-wrap">
 				<div class="profile">
-					{% if strategy === 'default' %}
-						<form id="login-form" action="/login" method="post">
-					{% elif strategy === 'jwt' %}
-						<form id="login-form" action="/mobile/login" method="post">
-					{% endif %}
+					<form id="login-form" action="/auth/login" method="post">
 						<div class="input-group">
 							<label for="username">ID</label>
 							<input id="username" type="username" name="username" required autofocus>
@@ -31,7 +23,7 @@
 				<input type="checkbox" id="regBtn" style="position: fixed; left:-9999px">
 				<label for="regBtn" class="regBtn" style="cursor:pointer">회원가입</label>
 				<div class='reg'>
-          <form id="register-form" action="/register" method="post">
+          <form id="register-form" action="/auth/register" method="post">
             <div class="input-group">
               <label for="register-username">아이디</label>
               <input id="register-username" type="username" name="username">

@@ -11,6 +11,7 @@ dotenv.config();
 
 const connect = require('./models');
 const mainRouter = require('./routes/main');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use('/file', express.static(path.join(__dirname, 'uploads')));
-app.use('/views', express.static(path.join(__dirname + "/views")));
+app.use('/views', express.static(path.join(__dirname + 'views')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -47,6 +48,7 @@ app.use(passport.session());
 connect();
 
 app.use('/', mainRouter);
+app.use('/auth', authRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(process.env.PORT);

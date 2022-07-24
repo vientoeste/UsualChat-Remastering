@@ -23,3 +23,7 @@
 ## 
 - 폴더 구조 수정
 - '/' - GET 라우터 추가
+##
+- '/auth/login' - GET
+- '/auth/register' - POST
+- still not on work
