@@ -56,10 +56,10 @@
 </form>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
+{# <script src="/socket.io/socket.io.js"></script> #}
 {# <script src="/views/chat.js"></script> #}
 <script>
- const socket = io.connect('http://121.171.183.86:3001/chat', {
+ {# const socket = io.connect('http://121.171.183.86:3001/chat', {
     path: '/socket.io',
   });
 
@@ -112,7 +112,7 @@
     document.querySelector('#chat-list').appendChild(div);
     const chatlist = document.querySelector('#chat-list');
     chatlist.scrollTop = chatlist.scrollHeight;
-  });
+  }); #}
 
   document.querySelector('#chat-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -160,8 +160,8 @@
 #}
 
   document.querySelector('#removeroom').addEventListener('submit', (e) => {
-    e.preventDefault();
     axios.delete('/room/{{room._id}}');
+    window.reload();
   });
 </script>
 {% endblock %}

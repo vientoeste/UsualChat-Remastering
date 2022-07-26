@@ -20,10 +20,9 @@
 - pm2 도입 필요
 -----------------------
 # commit 별 수정 사항
-## 
+## c9b55b1, 2696263, 776e684
 - 폴더 구조 수정
 - '/' - GET 라우터 추가
 ##
-- '/auth/login' - GET
-- '/auth/register' - POST
-- still not on work
+- 기존 기능 모두 추가(socket.io 제외)
+- typescript 사용 시, socket.io 관련 문제가 있어 ws 패키지로 대체 예정

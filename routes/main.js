@@ -1,31 +1,30 @@
 const express = require('express');
-// const { isLoggedIn, isNotLoggedIn } = require('../utils/passport');
+const { isLoggedIn, isNotLoggedIn } = require('../utils/middlewares');
 const Room = require('../models/room');
 const Friend = require('../models/friend');
 
 const router = express.Router();
 
-router.get('/', /*isLoggedIn,*/ async (req, res, next) => {
+router.get('/', isLoggedIn, async (req, res, next) => {
   try {
-    const username = 'req';
-    // const username = !req.session.username? req.user.username: req.session.username;
+    const user = req.user.username;
     const rooms = await Room.find({
       isDM: false
     });
     const friendRequests = await Friend.find({
-      receiver: username,
+      receiver: user,
       isAccepted: false
     });
     const acceptedFriends = await Friend.find({
       $or: [{
-        sender: username
+        sender: user
       }, {
-        receiver: username
+        receiver: user
       }],
       isAccepted: true
     });
     res.render('main', {
-      username, rooms, friendRequests, acceptedFriends, title: 'UsualChat'
+      user, rooms, friendRequests, acceptedFriends, title: 'UsualChat'
     });
   } catch(err) {
     console.error(err);
