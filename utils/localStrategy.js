@@ -12,20 +12,18 @@ module.exports = () => {
     try {
       const userObj = await User.findOne({ username: username });
       console.log(userObj)
-      if (!!userObj) {
-        const result = await bcrypt.compare(`${password}`, `${userObj.password}`);
-        console.log(result)
-        if (!!result) {
-          done(null, userObj);
-        } else {
-          done(null, false, {
-            message: '비밀번호가 일치하지 않습니다.'
-          });
-        }
-      } else {
+      if (!userObj) {
         done(null, false, {
           message: '미가입 회원입니다.'
         });
+      }
+      const result = await bcrypt.compare(`${password}`, `${userObj.password}`);
+      if (!result) {
+        done(null, false, {
+          message: '비밀번호가 일치하지 않습니다.'
+        });
+      } else {
+        done(null, userObj);
       }
     } catch (err) {
       console.error(err);

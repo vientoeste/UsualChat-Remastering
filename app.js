@@ -64,7 +64,11 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = err;
   res.status(err.status || 500);
-  res.render('error');
+  if (err.message.slice(0, 7) === 'Cast to') {
+    res.redirect('/?error=존재하지 않는 방입니다.');
+  } else {
+    res.redirect(`${req.url}/?error=${err.message}`);
+  }
 });
 
 app.listen(process.env.PORT, () => {

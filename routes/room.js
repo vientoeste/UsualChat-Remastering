@@ -8,7 +8,7 @@ const Flag = require('../models/flag');
 const router = express.Router();
 
 router.route('/')
-  .get((req, res, next) => {
+  .get(isLoggedIn, (req, res, next) => {
     try {
       res.render('room', {
         title: 'UsualChat 채팅방 생성'
@@ -18,14 +18,12 @@ router.route('/')
       next(err);
     }
   })
-  .post(async (req, res, next) => {
+  .post(isLoggedIn, async (req, res, next) => {
     try {
       const user = req.user.username;
       let { title, max, password } = req.body;
       if (!title) {
-        throw new Error({
-          message: 'no title on reqbody'
-        });
+        throw new Error('no title on reqbody');
       }
       const newRoom = await Room.create({
         title: title,
@@ -44,15 +42,13 @@ router.route('/')
   });
 
 router.route('/dm')
-  .post(async (req, res, next) => {
+  .post(isLoggedIn, async (req, res, next) => {
     try {
       let dmRoomID = '';
       const user = req.user.username;
       const { friend } = req.body;
       if (!friend) {
-        throw new Error({
-          message: 'there is no friend in reqbody'
-        })
+        throw new Error('there is no friend in reqbody');
       }
 
       const isDmExists = await Room.find({
@@ -68,9 +64,7 @@ router.route('/dm')
         if (rooms.length === 0) {
           return false;
         } else if (rooms.length !== 1) {
-          throw new Error({
-            message: 'there is more than 2 dm rooms for 1 friend in Database'
-          });
+          throw new Error('there is more than 2 dm rooms for 1 friend in Database');
         }
         dmRoomID = rooms[0]._id;
         return true;
@@ -85,13 +79,9 @@ router.route('/dm')
         }]
       }).then((friends) => {
         if (friends.length === 0) {
-          throw new Error({
-            message: 'there is no friends in Database'
-          }) ;       
+          throw new Error('there is no friends in Database');       
         } else if (friends.length !== 1) {
-          throw new Error({
-            message: 'there is more than 2 same friends in Database'
-          });
+          throw new Error('there is more than 2 same friends in Database');
         }
         return friends[0]._id;
       });
@@ -118,21 +108,18 @@ router.route('/dm')
   })
 
 router.route('/:id')
-  .get(async (req, res, next) => {
+  .get(isLoggedIn, async (req, res, next) => {
     const roomID = req.params.id;
     const user = req.user.username;
     try {
-      const room = await Room.findOne({
+      const room = await Room.findById({
         _id: roomID,
       });
-      if (!room) {
-        return res.redirect('/');
-      }
       if (!room.password) {
         room.password = '';
       }
       if (room.password !== '' && room.password !== req.query.password) {
-        return res.redirect('/?error=비밀번호가 틀렸습니다.');
+        throw new Error('비밀번호가 틀렸습니다.');
       }
       // 웹소켓 -> 접속 인원 / 허용 인원 확인 필요
       const flag = await Flag.find({
@@ -168,7 +155,7 @@ router.route('/:id')
       next(err);
     }
   })
-  .delete(async (req, res, next) => {
+  .delete(isLoggedIn, async (req, res, next) => {
     const user = req.user.username;
     const roomID = req.params.id;
     try {
@@ -179,13 +166,13 @@ router.route('/:id')
         return res.redirect('/');
       }
       if (roomObj.owner === user || user === 'admin') {
-        await Room.remove({
+        await Room.deleteOne({
           _id: roomID
         });
-        await Chat.remove({
+        await Chat.deleteMany({
           room: roomID
         });
-        await Flag.remove({
+        await Flag.deleteMany({
           room: roomID
         });
       }
@@ -197,22 +184,23 @@ router.route('/:id')
     }
   });
 
-router.route('/room/:id/chat').post(async (req, res, next) => {
-  const roomID = req.params.id;
-  const user = req.user.username;
-  const { chat } = req.body;
-  try {
-    const chatObj = await Chat.create({
-      room: roomID,
-      user: user,
-      chat: chat,
-    });
-    // 웹소켓 - emit
-    res.send('ok');
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
+router.route('/room/:id/chat')
+  .post(isLoggedIn, async (req, res, next) => {
+    const roomID = req.params.id;
+    const user = req.user.username;
+    const { chat } = req.body;
+    try {
+      const chatObj = await Chat.create({
+        room: roomID,
+        user: user,
+        chat: chat,
+      });
+      // 웹소켓 - emit
+      res.send('ok');
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
+  });
 
 module.exports = router;

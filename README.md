@@ -14,7 +14,7 @@ Still not on service
 - Chat with your friends one on one(DM)
 
 # About Personal Information
-- Server stores only username & pwds
+- Server stores only username & pwds(hashed)
 - Aims for anonymous chatting
     * But in the future other informations(such as IP addresses) can be collected to add another functions(as report/ban)
 - For the moment when a user leaves the service his(/her) information will be deleted immediately upon withdrawal

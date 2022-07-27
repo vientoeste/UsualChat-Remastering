@@ -9,7 +9,7 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.route('/')
-  .post(async (req, res, next) => {
+  .post(isLoggedIn, async (req, res, next) => {
     const user = req.user.username;
     const { friend } = req.body;
     try {
@@ -17,7 +17,7 @@ router.route('/')
         username: friend,
       });
       if (!friendObj) {
-        return res.redirect('/?error=존재하지 않는 유저입니다.');
+        throw new Error('존재하지 않는 유저입니다.');
       }
       await Friend.create({
         sender: user,
@@ -31,7 +31,7 @@ router.route('/')
   });
 
 router.route('/:id')
-  .post(async (req, res, next) => {
+  .post(isLoggedIn, async (req, res, next) => {
     const friendID = req.params.id;
     try {
       await Friend.findByIdAndUpdate({
@@ -45,16 +45,14 @@ router.route('/:id')
       next(err);
     }
   })
-  .delete(async (req, res, next) => {
+  .delete(isLoggedIn, async (req, res, next) => {
     const friendID = req.params.id;
     try {
       await Friend.find({
         _id: friendID
       }).then(async (items) => {
         if (items.length === 0) {
-          throw new Error({
-            message: 'there\'s no such friend on DB'
-          });
+          throw new Error('there\'s no such friend on DB');
         }
         await Room.findByIdAndDelete({
           _id: items[0].dm

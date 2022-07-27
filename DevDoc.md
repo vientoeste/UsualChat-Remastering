@@ -23,6 +23,10 @@
 ## c9b55b1, 2696263, 776e684
 - 폴더 구조 수정
 - '/' - GET 라우터 추가
-##
+## 1d5f88a, 
 - 기존 기능 모두 추가(socket.io 제외)
-- typescript 사용 시, socket.io 관련 문제가 있어 ws 패키지로 대체 예정
+- ~~typescript 사용 시, socket.io 관련 문제가 있어 ws 패키지로 대체 예정~~
+- remove -> deleteOne, deleteMany로 대체
+##
+- 코드 일부 개선(alert로 에러 출력, 에러 관련 오류 개선)
+- 임시 favicon 추가
