@@ -25,6 +25,9 @@ router.route('/')
       if (!title) {
         throw new Error('no title on reqbody');
       }
+      if (!password) {
+        password = '';
+      }
       const newRoom = await Room.create({
         title: title,
         max: max,
@@ -34,7 +37,7 @@ router.route('/')
       });
       // 웹소켓 로직 추가 필요(socket.io -> ws)
       console.log(newRoom);
-      res.redirect(`/room/${newRoom._id}?password=${req.body.password}`);
+      res.redirect(`/room/${newRoom._id}?password=${password}`);
     } catch (err) {
       console.error(err);
       next(err);
@@ -119,7 +122,7 @@ router.route('/:id')
         room.password = '';
       }
       if (room.password !== '' && room.password !== req.query.password) {
-        throw new Error('비밀번호가 틀렸습니다.');
+        throw new Error('invalid pw');
       }
       // 웹소켓 -> 접속 인원 / 허용 인원 확인 필요
       const flag = await Flag.find({
@@ -178,25 +181,6 @@ router.route('/:id')
       }
       console.log('deleted');
       res.redirect('/');
-    } catch (err) {
-      console.error(err);
-      next(err);
-    }
-  });
-
-router.route('/room/:id/chat')
-  .post(isLoggedIn, async (req, res, next) => {
-    const roomID = req.params.id;
-    const user = req.user.username;
-    const { chat } = req.body;
-    try {
-      const chatObj = await Chat.create({
-        room: roomID,
-        user: user,
-        chat: chat,
-      });
-      // 웹소켓 - emit
-      res.send('ok');
     } catch (err) {
       console.error(err);
       next(err);
