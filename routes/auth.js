@@ -36,8 +36,7 @@ router.route('/login')
           throw new Error('login error');
         } else {
           passport.authenticate('local')(req, res, () => {
-            req.session.username = username;
-            return res.redirect('/');
+            return res.redirect('/auth/login')
           });
         }
       });

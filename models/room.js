@@ -16,7 +16,10 @@ const roomSchema = new Schema({
     type: String,
     required: true,
   },
-  password: String,
+  password: {
+    type: String,
+    default:'',
+  },
   createdAt: {
     type: Date,
     default: Date.now,

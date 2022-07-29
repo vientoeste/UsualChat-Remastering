@@ -118,8 +118,8 @@ router.route('/:id')
       const room = await Room.findById({
         _id: roomID,
       });
-      if (!room.password) {
-        room.password = '';
+      if (!room) {
+        return res.redirect('/');
       }
       if (room.password !== '' && room.password !== req.query.password) {
         throw new Error('invalid pw');
@@ -180,7 +180,7 @@ router.route('/:id')
         });
       }
       console.log('deleted');
-      res.redirect('/');
+      res.redirect(303, '/');
     } catch (err) {
       console.error(err);
       next(err);

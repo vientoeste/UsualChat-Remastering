@@ -64,7 +64,7 @@ router.route('/:id')
           room: items[0].dm
         });
       });
-      res.redirect('/');
+      res.redirect(303, '/');
     } catch (err) {
       console.error(err);
       next(err);

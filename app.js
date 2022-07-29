@@ -69,11 +69,15 @@ app.use((err, req, res, next) => {
   res.locals.error = err;
   res.status(err.status || 500);
   if (err.message.slice(0, 7) === 'Cast to') {
-    res.redirect('/?error=존재하지 않는 방입니다.');
+    res.redirect('/?error=방 주소 형식이 잘못되었습니다.');
+  } else if (req.url === '/auth/register') {
+    res.redirect('/auth/login?error=이미 존재하는 닉네임입니다.')
   } else if (err.message.slice(-10) === '라우터가 없습니다.') {
     res.send(err.message);
   } else if (err.message === 'invalid pw') {
     res.redirect('/?error=비밀번호가 틀렸습니다.')
+  } else if (err.message.slice(0, 6) === 'Cannot') {
+    res.redirect('/')
   } else {
     res.redirect(`${req.url}/?error=${err.message}`);
   }
