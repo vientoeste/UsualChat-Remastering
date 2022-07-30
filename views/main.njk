@@ -112,12 +112,12 @@
 </fieldset>
 <a href="/auth/unregister" type="button">회원 탈퇴</button>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-{# <script src="/socket.io/socket.io.js"></script> #}
+<script src="/socket.io/socket.io.js"></script>
 <script>
-  {# const socket = io.connect('http://121.171.183.86:3001/room', {
+  const socket = io.connect('http://121.171.183.86:3001/room', {
     path: '/socket.io',
-  }); #}
-{# 
+  }); 
+
   socket.on('newRoom', function (data) {
     const tr = document.createElement('tr');
     let td = document.createElement('td');
@@ -142,15 +142,15 @@
     tr.appendChild(td);
     tr.dataset.id = data._id;
     document.querySelector('table tbody').appendChild(tr);
-  }); #}
+  });
 
-  {# socket.on('removeRoom', function (data) {
+  socket.on('removeRoom', function (data) {
     document.querySelectorAll('tbody tr').forEach(function (tr) {
       if (tr.dataset.id === data) {
         tr.parentNode.removeChild(tr);
       }
     });
-  }); #}
+  }); 
 
   function addBtnEvent(e) {
     if (e.target.dataset.password === 'true') {

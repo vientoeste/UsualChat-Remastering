@@ -36,10 +36,13 @@
 - 에러 관련 오류 수정(에러 세분화 예정)
 - chat, room 분리
 - 친구 관련 기능이 작동하지 않던 오류 해결
-##
-- /room/:id DELETE 관련 문제 임시 해결
+## 2313c0b
+- /room/:id DELETE 관련 문제 해결
     * /room/:id DELETE 요청 처리 후, `return res.redirect('/');`를 통해 메인 화면으로 리디렉션을 제공하려고 했으나 /room/:id에 GET 요청을 자동으로 보냄
     * 해당 현상을 위해 임시로 /room/:id GET 라우터에 `findById({_id: roomID})`의 결과가 null일 시 리디렉션 제공
     * 잘못된 /room/:id 접근 시 글자 수가 다르면 `Cast to ObjectId failed for value ~~` 오류가 출력되기 때문에 해당 오류가 null 체크 라인에서 검출될 수 없음, 글자 수가 같으면 '/' 경로로 리다이렉트
     * DELETE 요청 후 메인으로 리다이렉트 시 '/' 경로에 GET요청 선전송 후 DELETE 요청을 전송하는 현상 확인 -> req.method='GET'으로 해결 실패 -> res.redirect(303, '/')으로 해결
 - 기타 사항들 수정(indent 등)
+##
+- socket.io를 통한 실시간 채팅 기능 복구
+- socket.io는 웹소켓 프로토콜을 준수하는(TCP 전이중 통신) 라이브러리가 아니므로, 웹소켓 서버 구현을 위해서는 ws, uwebsocket.js 등의 라이브러리 도입이 필요함

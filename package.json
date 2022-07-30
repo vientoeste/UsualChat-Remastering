@@ -28,6 +28,7 @@
     "multer": "*",
     "nunjucks": "^3.2.3",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "socket.io": "^4.5.1"
   }
 }

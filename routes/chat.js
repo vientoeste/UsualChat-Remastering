@@ -19,7 +19,7 @@ router.route('/chat')
         user: user,
         chat: chat,
       });
-      // 웹소켓 - emit
+      req.app.get('io').of('/chat').to(roomID).emit('chat', chatObj);
       res.send('ok');
     } catch (err) {
       console.error(err);

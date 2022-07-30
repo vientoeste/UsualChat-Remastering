@@ -16,6 +16,7 @@ const roomRouter = require('./routes/room');
 const friendRouter = require('./routes/friend');
 const chatRouter = require('./routes/chat')
 const passportConfig = require('./utils/passport');
+const webSocket = require('./socket');
 
 const app = express();
 passportConfig();
@@ -83,6 +84,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
     console.log(process.env.PORT);
 });
+
+webSocket(server, app, sessionMiddleware);

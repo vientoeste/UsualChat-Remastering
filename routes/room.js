@@ -35,7 +35,7 @@ router.route('/')
         password: password,
         isDM: false
       });
-      // 웹소켓 로직 추가 필요(socket.io -> ws)
+      req.app.get('io').of('/room').emit('newRoom', newRoom);
       console.log(newRoom);
       res.redirect(`/room/${newRoom._id}?password=${password}`);
     } catch (err) {
@@ -124,7 +124,10 @@ router.route('/:id')
       if (room.password !== '' && room.password !== req.query.password) {
         throw new Error('invalid pw');
       }
-      // 웹소켓 -> 접속 인원 / 허용 인원 확인 필요
+      const { rooms } = req.app.get('io').of('/chat').adapter;
+      if ( rooms && rooms[roomID] && room.max <= rooms[roomID].length ) {
+        return res.redirect('/?error=허용 인원을 초과하였습니다.');
+      }
       const flag = await Flag.find({
         username: user,
         room: roomID
@@ -169,6 +172,8 @@ router.route('/:id')
         return res.redirect('/');
       }
       if (roomObj.owner === user || user === 'admin') {
+        req.app.get('io').of('/room').emit('removeRoom', req.params.id);
+        req.app.get('io').of('/chat').emit('reload');
         await Room.deleteOne({
           _id: roomID
         });
@@ -179,7 +184,6 @@ router.route('/:id')
           room: roomID
         });
       }
-      console.log('deleted');
       res.redirect(303, '/');
     } catch (err) {
       console.error(err);
