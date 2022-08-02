@@ -42,6 +42,7 @@ connect();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'views')))
 app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use('/file', express.static(path.join(__dirname, 'uploads')));
 app.use('/views', express.static(path.join(__dirname + 'views')));

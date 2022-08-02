@@ -114,7 +114,7 @@
     chatlist.scrollTop = chatlist.scrollHeight;
   });
 
-  document.querySelector('#chat-form').addEventListener('submit', (e) => {
+  document.querySelector('#chat-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.target.chat.value) {
       axios
@@ -130,7 +130,7 @@
     }
   });
 
-  document.querySelector('#img').addEventListener('change', (e) => {
+  document.querySelector('#img')?.addEventListener('change', (e) => {
     console.log(e.target.files);
     const formData = new FormData();
     formData.append('img', e.target.files[0]);
@@ -159,7 +159,7 @@
   });
 #}
 
-  document.querySelector('#removeroom').addEventListener('submit', (e) => {
+  document.querySelector('#removeroom')?.addEventListener('submit', (e) => {
     axios.delete('/room/{{room._id}}');
     window.reload();
   });

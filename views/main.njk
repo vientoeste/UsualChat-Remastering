@@ -161,9 +161,10 @@
     }
   }
 
-  document.querySelectorAll('.register-btn').forEach(function (btn) {
+  document.querySelectorAll('.register-btn')?.forEach(function (btn) {
     btn.addEventListener('click', addBtnEvent);
   });
+
   document.querySelector('#addfriend').addEventListener('submit', e => {
     e.preventDefault();
     axios.post('/friend', {
@@ -177,7 +178,7 @@
     });
   })
 
-  document.querySelector("#delfriend").addEventListener('submit', e => {
+  document.querySelector("#delfriend")?.addEventListener('submit', e => {
     axios({
       url: 'http://121.171.183.86:3001/friend/',
       method: 'delete',
@@ -185,13 +186,15 @@
         friendid: this.friendid.value
       }
     })
-  })
-  document.querySelector('#accept').addEventListener('submit', (e) => {
+  });
+
+  document.querySelector('#accept')?.addEventListener('submit', (e) => {
     alert('친구 요청을 수락했습니다.')
-  })
-  document.querySelector('#reject').addEventListener('submit', (e) => {
+  });
+
+  document.querySelector('#reject')?.addEventListener('submit', (e) => {
     alert('친구 요청을 거절했습니다.')
-  })
+  });
 
 </script>
 {% endblock %}

@@ -172,7 +172,7 @@ router.route('/:id')
         return res.redirect('/');
       }
       if (roomObj.owner === user || user === 'admin') {
-        req.app.get('io').of('/room').emit('removeRoom', req.params.id);
+        req.app.get('io').of('/room').emit('removeRoom', roomID);
         req.app.get('io').of('/chat').emit('reload');
         await Room.deleteOne({
           _id: roomID
