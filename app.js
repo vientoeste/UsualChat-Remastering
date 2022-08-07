@@ -14,7 +14,8 @@ const mainRouter = require('./routes/main');
 const authRouter = require('./routes/auth');
 const roomRouter = require('./routes/room');
 const friendRouter = require('./routes/friend');
-const chatRouter = require('./routes/chat')
+const chatRouter = require('./routes/chat');
+const dmRouter = require('./routes/dm');
 const passportConfig = require('./utils/passport');
 const webSocket = require('./socket');
 
@@ -59,6 +60,7 @@ app.use('/auth', authRouter);
 app.use('/room/:id', chatRouter)
 app.use('/room', roomRouter);
 app.use('/friend', friendRouter);
+app.use('/dm', dmRouter);
 
 app.use((req, res, next) => {
   const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

@@ -43,6 +43,13 @@
     * 잘못된 /room/:id 접근 시 글자 수가 다르면 `Cast to ObjectId failed for value ~~` 오류가 출력되기 때문에 해당 오류가 null 체크 라인에서 검출될 수 없음, 글자 수가 같으면 '/' 경로로 리다이렉트
     * DELETE 요청 후 메인으로 리다이렉트 시 '/' 경로에 GET요청 선전송 후 DELETE 요청을 전송하는 현상 확인 -> req.method='GET'으로 해결 실패 -> res.redirect(303, '/')으로 해결
 - 기타 사항들 수정(indent 등)
-##
+## 259ac0d, 3579a48
 - socket.io를 통한 실시간 채팅 기능 복구
 - socket.io는 웹소켓 프로토콜을 준수하는(TCP 전이중 통신) 라이브러리가 아니므로, 웹소켓 서버 구현을 위해서는 ws, uwebsocket.js 등의 라이브러리 도입이 필요함
+## 14971f9
+- document.querySelector.addEventListener 사용 시 querySelector에 해당하는 클래스나 ID가 없을 경우 undefined를 반환하기 때문에 addEventListener에 에러가 발생하여 해당 line보다 아래에 있는 스크립트가 실행되지 않는 현상 해결
+    * ?. 문법 사용 시 해당하는 객체가 undefined, null이지 않을 경우 뒤에 붙는 메소드를 실행함. undefined, null일 경우 실행하지 않음
+- socket.io 사용 코드의 통일성 부여
+## 
+- /dm 라우터 사용 시 BSON / type casting 오류가 있어 분리
+- tailwindCSS 사용을 위한 초기 설정

@@ -47,7 +47,7 @@
     </tr>
     </thead>
     <tbody>
-      {% for friend in accfriends %}
+      {% for friend in acceptedFriends %}
       <tr>
         <td>{% if un === friend.receiver %}
           {{friend.sender}}
@@ -92,7 +92,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for friend in friendreqs %}
+        {% for friend in friendRequests %}
         <tr data-id="{{friend._id}}">
           <td>{{friend.sender}}</td>
           <td>{{friend.createdAt}}</td>
